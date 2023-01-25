@@ -33,7 +33,7 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #env('DEBUG')
+DEBUG = False #env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -92,18 +92,18 @@ WSGI_APPLICATION = 'pluxchains.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'testdb',
-    }
-}
-
-# DATABASE_URL = env('DATABASE_URL')
-
 # DATABASES = {
-#     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'testdb',
+#     }
 # }
+
+DATABASE_URL = env('DATABASE_URL')
+
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+}
 
 
 # Password validation
@@ -150,8 +150,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 MEDIA_URL = '/media/'
