@@ -1,0 +1,83 @@
+{% extends 'main.html' %}{% load static %}{% block content %}
+
+    <!-- Start Page Title Area -->
+    <section class="page-title-area">
+        <div class="container">
+            <div class="page-title-content">
+                <h1>Packages</h1>
+            </div>
+        </div>
+
+        <div class="shape2"><img src="{% static 'img/shape/shape2.png' %}" alt="image"></div>
+        <div class="shape3"><img src="{% static 'img/shape/shape3.png' %}" alt="image"></div>
+        <div class="shape5"><img src="{% static 'img/shape/shape5.png' %}" alt="image"></div>
+        <div class="shape6"><img src="{% static 'img/shape/shape6.png' %}" alt="image"></div>
+        <div class="shape7"><img src="{% static 'img/shape/shape7.png' %}" alt="image"></div>
+        <div class="shape8"><img src="{% static 'img/shape/shape8.png' %}" alt="image"></div>
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </section>
+    <!-- End Page Title Area -->
+
+    <!-- Start Pricing Area -->
+    <section class="pricing-area bg-f9f9f9 pt-100 pb-70">
+        <div class="container">
+            <div class="section-title">
+                <span class="sub-title">Packages</span>
+                <h2>Our Flexible Pricing Plan</h2>
+                <p>Investement plans We understand the needs of our customers very much that our investment plans covers the widest range of benefits.</p>
+            </div>
+
+            <div class="row">
+                {% for plan in plans %}
+                <div class="col-lg-4 col-md-6 col-sm-6 mx-auto">
+                  <div class="single-pricing-box">
+                   <div class="pricing-header">
+                    <div class="icon">
+                     <i class="flaticon-paper-plane">
+                     </i>
+                     <div class="circles-box">
+                      <div class="circle-one">
+                      </div>
+                     </div>
+                    </div>
+                    <h3>
+                     {{ plan.plan_name |title }} Plan
+                    </h3>
+                   </div>
+                   <div class="pricing-features">
+                    <ul>
+                     <li>
+                      Minimum Amount:{{ plan.investment_amount_lowest }}
+                     </li>
+                     <li>
+                      Maximum Amount:{{ plan.investment_amount_highest }}
+                     </li>
+                     <li>
+                      Duration: {{ plan.number_of_days }}
+                     </li>
+                     <li>
+                      Referral Profit: {{ plan.referral_profit_percent }}
+                     </li>
+                    </ul>
+                   </div>
+                   <div class="price">
+                    Profit: {{ plan.investment_profit_percent }}%
+                    <span>
+                     Daily
+                    </span>
+                   </div>
+                   <a class="default-btn" href="/accounts/signup">
+                    Get Started
+                   </a>
+                  </div>
+                 </div>
+                {% endfor %}
+              </div>
+    </section>
+    <!-- End Pricing Area -->
+
+{%endblock content%}

@@ -1,0 +1,248 @@
+{% extends 'user/main.html' %} {% load static %} {% block content %}
+<div class="main-panel">
+    <div class="container">
+        <div class="row card">
+            <div class="card-header text-center">
+                <h4>
+                    Use the form to make a deposit
+                </h4>
+            </div>
+            <!-- Form -->
+         
+
+            <div class="content-wrapper">
+                <!--div class="row ">
+                          <div class="col-12">
+                            <div class="page-header" style="border: none; padding-bottom: 0px; margin-bottom: 10px;">
+                                <h5 class="page-title"><i class="fas fa-upload"></i> Deposit </h5>
+                            </div>
+                          </div>
+                
+                        </div-->
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card first">
+                            <div class="card-body px-2">
+                                <h4 class="card-title">Make Deposit</h4>
+                                <form class="forms-sample" action="" method="post">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Choose Type of Deposit: <span
+                                                class="text-danger">*</span></label>
+                                        <select name="pack" class="form-select form-control" id="pack" onchange="firstChange()">
+                                            <option label="Choose Type of Deposit"></option>
+                                            <option value="BTC">Bitcoin</option>
+                                            <option value="LTC">Litecoin </option>
+                                            <option value="XRP">XRP </option>
+                                            <option value="ETH">Etherum </option>
+                                            <option value="USDT">USDT</option>
+                                        </select>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card second" style="display: none;">
+                            <div class="card-body px-2">
+                                <h4 class="card-title">Make Deposit</h4>
+                                <form class="forms-sample" action="" method="post">
+
+
+                                    <div class="row">
+                                        <div class="mb-3 col">
+                                            <label for="value" class="form-label">VALUE</label>
+                                            <input type="number" name="" id="value" class="form-control"
+                                                 oninput="getUsdtValue()"
+                                                min="1">
+                                        </div>
+                                        <div class="mb-3 col">
+                                            <label for="usdtvalue" class="form-label">USDT VALUE</label>
+                                            <input type="number" name="" id="usdtvalue" class="form-control"
+                                                 min="1" readonly>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-grid gap-2 d-flex justify-content-end py-2">
+                                        <button type="button" class="btn btn-outline-dark" onclick="secondChange()"
+                                            id="second-button" style="display: none;">Proceed</button>
+                                    </div>
+
+
+
+
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card third" style="display: none;">
+                            <div class="card-body px-2">
+                                <h4 class="card-title">Make Deposit</h4>
+                                <form class="forms-sample" action="" method="post">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Choose Type of Deposit: <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="" id="wallet_address" class="form-control"
+                                            value="your address" readonly >
+                                    </div>
+
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                                        <button type="button" class="btn btn-link" onclick="copy_ref('wallet_address')">Copy the address</button>
+                                        <form action="/user/deposit" method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="wallet_address" id="wallet_address_main"
+                                                style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
+                                            <input type="number" name="amount" id="amount_main"
+                                                style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
+                                            <input type="number" name="usdt_amount" id="usdt_amount_main"
+                                                style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;"
+                                                step="any">
+                                            <input type="text" name="wallet_type" id="wallet_type_main"
+                                                style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
+                                            <button class="btn btn-outline-dark" type="submit">I am done with my
+                                                payment</button>
+                                        </form>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body px-0">
+                                <h4 class="card-title text-center">Recent Deposits</h4>
+                                <table class="table table-striped">
+                                    {% for deposit in deposits %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            {% if deposit.verified %}
+                                            <h5 class="card-title">DEPOSIT VERIFIED</h5>
+                                            {% else %}
+                                            <h5 class="card-title">DEPOSIT PENDING</h5>
+                                            {% endif %}
+
+
+                                            <p class="card-text">{{ deposit.amount }} was sent to {{ deposit.wallet_address }} on {{ deposit.time}}</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider">
+                                    </div>
+                                    {% empty %}
+                                    <p class="text-center">You have not made any deposit</p>
+                                    {% endfor %}
+
+
+
+                                </table>
+                                <div class="text-center">
+                                    <a class="btn btn-success mt-3 px-3"
+                                    href="/transaction?category=deposit">Show all deposits</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <script>
+                let obj = {
+
+                }
+                function firstChange() {
+                    let firstCon = document.querySelector('.first')
+                    let select = document.getElementById('pack')
+                    obj.wallet_type = select.value
+                    firstCon.style.display = 'none'
+                    let secondCon = document.querySelector('.second')
+                    secondCon.style.display = 'flex'
+
+                }
+
+                function secondChange() {
+                    let secondCon = document.querySelector('.second')
+                    let inpAmount = document.getElementById('value')
+                    let usdtvalue = document.getElementById('usdtvalue')
+                    obj.amount = inpAmount.value
+                    obj.usdtAmount = usdtvalue.value
+                    let address
+                    if (obj.wallet_type == 'bitcoin') {
+                        address = `{{wallet.bitcoin_address}}`
+                    } else if (obj.wallet_type == 'xrp') {
+                        address = `{{wallet.xrp_address}}`
+                    } else if (obj.wallet_type == 'litecoin') {
+                        address = `{{wallet.litecoin_address}}`
+                    } else if (obj.wallet_type == 'USDT') {
+                        address = `{{wallet.usdt_address}}`
+                    }else {
+                        address = `{{wallet.etherum_address}}`
+                    }
+                    obj.wallet_address = address
+                    document.getElementById('wallet_address').value = address
+                    document.getElementById('wallet_address_main').value = address
+                    document.getElementById('wallet_type_main').value = obj.wallet_type
+                    document.getElementById('amount_main').value = obj.amount
+                    document.getElementById('usdt_amount_main').value = obj.usdtAmount
+
+                    secondCon.style.display = 'none'
+                    let thirdCon = document.querySelector('.third')
+                    thirdCon.style.display = 'flex'
+                }
+
+                function getUsdtValue() {
+                    if ( obj.wallet_type == 'USDT') {
+                        let amount = document.getElementById('value')
+                        let usdtAmount = document.getElementById('usdtvalue')
+                        usdtAmount.value = amount.value 
+                        document.getElementById('second-button').style.display = 'block'  
+                    } else {
+                    document.getElementById('second-button').style.display = 'none'
+                    let url = 'https://api.binance.com/api/v3/ticker/price?symbol=' + obj.wallet_type + 'USDT'
+                    console.log(url)
+                    fetch(url)
+                        .then(data => {
+                            return data.json()
+                        })
+                        .then(res => {
+                            let amount = document.getElementById('value')
+                            let usdtAmount = document.getElementById('usdtvalue')
+                            usdtAmount.value = amount.value * res.price
+                            document.getElementById('second-button').style.display = 'block'
+                        })
+                        .catch(error => console.log(error))
+                    }
+                }
+                document.getElementById('second-button').addEventListener('click', secondChange) 
+                
+                
+                    function copy_ref(id_copy) {
+                      // Get the text field
+                      var copyText = document.getElementById(id_copy);
+                    
+                      // Select the text field
+                      copyText.select();
+                      copyText.setSelectionRange(0, 99999); // For mobile devices
+                    
+                       // Copy the text inside the text field
+                      //navigator.clipboard.writeText(copyText.value);
+                    
+                      // Alert the copied text
+                      alert("Copied the text: " + copyText.value);
+                    }
+                  
+            </script>
+
+        </div>
+    </div>
+    {% endblock content %}

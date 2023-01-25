@@ -1,0 +1,273 @@
+{% extends 'user/main.html' %} {% load static %} {% load humanize %} {% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home">
+          </i>
+        </span>
+        Dashboard
+      </h3>
+      <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+          <li aria-current="page" class="breadcrumb-item active">
+            <span>
+            </span>
+            Overview
+            <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle">
+            </i>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="row" style="margin: 2rem 0;">
+      <div class="card">
+        <div class="card-header header-sm d-flex justify-content-between align-items-center">
+          <h4 class="card-title">
+            Account Summary
+          </h4>
+          <a class="btn btn-inverse-primary btn-sm" href="#">
+            <i class="fa fa-file-text">
+            </i>
+            Withdrawal Records
+          </a>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="align-items-center">
+              <p class="text-muted" style="margin-bottom: 0.5rem;">
+                Available Balance
+              </p>
+              <h1 class="font-weight-medium mb-0">
+                ${{ profile.available_balance|intcomma }}
+              </h1>
+            </div>
+          </div>
+          <div class="d-flex flex-row mt-4 mb-4">
+            <div class="wrapper px-4">
+              <p class="mb-0 text-muted">
+                Book Balance
+              </p>
+              <div class="d-flex align-items-center">
+                {% if book_balance == 0.0 %}
+                <h5 class="font-weight-medium mb-0">$ {{ profile.book_balance|intcomma }}</h5>
+                {% else %}
+                <h5 class="font-weight-medium mb-0">$ {{ book_balance|intcomma }}</h5>
+                {% endif %}
+              </div>
+            </div>
+            <div class="wrapper ml-4 border-left pl-4">
+              <p class="mb-0 text-muted">
+                Live Profit
+              </p>
+              <div class="d-flex align-items-center">
+                <h5 class="font-weight-medium mb-0">
+                  ${{ live_profit|intcomma }}
+                </h5>
+                <!--div class="badge badge-success ml-2 badge-sm">NAN%</div-->
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-row mb-3">
+            <a class="btn btn-outline-success mr-1" href="/user/deposit">
+              <i class="fa fa-upload">
+              </i>
+              Deposit
+            </a>
+            <a class="btn btn-outline-warning mr-1" href="/user/withdraw">
+              <i class="fa fa-download">
+              </i>
+              Withdraw
+            </a>
+            <a class="btn btn-outline-primary d-none d-md-block" href="/user/transfer">
+              <i class="fa fa-exchange">
+              </i>
+              Transfer
+            </a>
+          </div>
+          <div class="d-flex flex-row">
+            <p>
+              <small class="text-muted mt-5">
+                Your Available balance is the real balance you can withdraw
+                from while your book balance is your potential balance that will become available when
+                your deposit plan is completed.
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+              <div class="col-md-7 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="clearfix">
+                      <h4 class="card-title float-left">Visit And Sales Statistics</h4>
+                      <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                    </div>
+                    <canvas id="visit-sale-chart" class="mt-4"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Traffic Sources</h4>
+                    <canvas id="traffic-chart"></canvas>
+                    <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+    <div class="row">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">
+              Recent Transactions
+            </h4>
+            <button class="btn btn-gradient-danger btn-fw" type="button">
+              See All
+            </button>
+            <div class="table-responsive">
+              <table class="table  table-striped">
+                <tbody>
+                  {% for transaction in transactions %}
+                  <div class="card">
+                    <div class="card-body">
+
+                      <h5 class="card-title">{{ transaction.action_title }}</h5>
+
+
+
+                      <p class="card-text">{{ transaction.action }}</p>
+                      <p class="text-muted">{{ transaction.time }}</p>
+
+                    </div>
+                  </div>
+                  <div class="dropdown-divider">
+                  </div>
+                  {% empty %}
+                  <p class="text-center">You have not made any transaction</p>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- referal and the trading table section  -->
+    <section class="rowgi">
+   
+      <div class="col-md-5 stretch-card">
+        <div class="card text-center">
+          <div class="card-body d-flex flex-column px-2">
+            <div class="wrapper">
+              <h5>Invite Your Friends</h5>
+              <p><small class="text-muted ">Earn more when you refer your friends to invest with us. The reward on our
+                  referral program is dependent on the deposit plans.</small></p>
+              <!--form class="forms-sample mt-3" action="ref.html" method="post">
+                          <div class="form-group">
+                            <input type="email" class="form-control" name='email' placeholder="Your Friend's Email Address"> </div>
+                            <button type="submit" name='invite_email' class="btn btn-warning btn-block"><i class='fa fa-envelope'></i> Invite Via Email</button>
+                        </form-->
+
+              <div class="row">
+                <div class="col-6 col-md-12">
+                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                    <a href="mailto:?subject=Invitation&amp;body=Hello+dear%2C+I+am+happy+to+invite+you+to+join+reefresources+%2C+a+reliable+investment+website+that+helps+you+to+trade+and+return+your+profit.+Use+my+link+to+register+{{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
+                      target="_blank" class="btn btn-warning btn-block"><i class="fa fa-email"></i>Email</a>
+
+                  </form>
+                </div>
+                <div class="col-6 col-md-12">
+                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                    <a href="https://m.facebook.com/?soft=search" target="_blank" class="btn btn-primary btn-block"><i
+                        class="fa fa-facebook"></i>Facebook</a>
+
+                  </form>
+                </div>
+
+                <div class="col-6 col-md-12">
+                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                    <a href="https://wa.me?text={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
+                      target="_blank" class="btn btn-success btn-block"><i class="fa fa-whatsapp"></i>Whatsapp</a>
+
+                  </form>
+                </div>
+
+                <div class="col-6 col-md-12">
+                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}&text=JoinUs"
+                      target="_blank" class="btn btn-outline-primary btn-block"><i class="fa fa-twitter"></i>Twitter</a>
+
+                  </form>
+                </div>
+              </div>
+
+              <form class="forms-sample mt-3">
+                <div class="form-group">
+                  <input type="text" readonly id='ref_cop' class="form-control text-dark"
+                    value="{{ request.build_absolute_uri }}referral?referred_by={{ request.user.username }}">
+                </div>
+                <button id='ref_btn' type="button" onclick="copy_ref('ref_cop')"
+                  class="btn btn-primary btn-block"><i class='fa fa-copy'></i> Copy Referral Link</button>
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="rogu">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget">
+          </div>
+          <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/markets/cryptocurrencies/prices-all/" rel="noopener" target="_blank">
+              <span class="blue-text">
+                Crypto markets
+              </span>
+            </a>
+            by TradingView
+          </div>
+          <script async="" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js"
+            type="text/javascript">
+              {
+                "width": "100%",
+                  "height": "100%",
+                    "defaultColumn": "overview",
+                      "screener_type": "crypto_mkt",
+                        "displayCurrency": "USD",
+                          "colorTheme": "light",
+                            "locale": "en"
+              }
+            </script>
+        </div>
+        <!-- TradingView Widget END -->
+      </div>
+    </section>
+  </div>
+  <!-- content-wrapper ends -->
+  <script>
+    function copy_ref(id_copy) {
+      // Get the text field
+      var copyText = document.getElementById(id_copy);
+    
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+    
+       // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+    
+      // Alert the copied text
+      //alert("Copied the text: " + copyText.value);
+    }
+  </script>
+  {% endblock content %}

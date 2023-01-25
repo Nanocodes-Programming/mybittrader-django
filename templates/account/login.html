@@ -1,0 +1,63 @@
+
+
+{% extends 'account/main.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load static %}
+
+{%block title%}
+    <title>Account Login - {{site.name}}</title>
+{%endblock title%}
+
+{% block content %}
+<h1 class="py-4">{% trans "Login" %}</h1>
+
+<section class="gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-md-5 mt-md-4 pb-5">
+                            <h2 class="fw-bold mb-2 text-uppercase">LOGIN</h2>
+                            <p class="text-white-50 mb-5">Please enter your email and password!</p>
+                            <form method="post" action=" {% url 'account_login' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="_token" value="NXEVCmrmbzCBb3iTF5HYQbjuiG1SdKB9N1YnURJa">                                <div class="row">
+                                    {% for form in form%}
+                                    <div class="form-outline form-white mb-4 col-md-12">
+                                        {{form}}
+                                        <label class="form-label" for="typeEmailX">{{form.label}}</label>
+                                        
+                                    </div>
+                                   {%endfor%}
+                          
+                                </div>
+
+                                <button class="btn btn-outline-light btn-lg px-5"
+                                        type="submit">
+                                    Login
+                                </button>
+                                
+                            </form>
+                            
+                        </div>
+
+                        <div>
+                        <p class="mb-0">Reset your password
+                            <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                        </p>
+                            <p class="mb-0">Create an account?
+                                <a href="{{ signup_url }}" class="text-white-50 fw-bold">Sign Up</a>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock content%}

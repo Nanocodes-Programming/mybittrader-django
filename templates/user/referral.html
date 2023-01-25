@@ -1,0 +1,32 @@
+{% extends 'user/main.html' %} {% load static %} {% block content %}
+<div class="main-panel">
+    <div class="card-header text-center">
+        <h4>
+            Referral
+        </h4>
+    </div>
+    <div class="content-wrapper">
+        <div class="row ">
+              <div class="col-12">
+                <div class="page-header" style="border: none; padding-bottom: 0px; margin-bottom: 10px;">
+
+                    <form action="/user/referral" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                        <label class="form-control-label">Enter your referral code<span class="text-danger">*</span></label>
+                        <input type="text" name="referred_by" id="" class="form-control">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button  class="btn btn-outline-dark my-2" type="submit">Submit</button>
+                        </div>
+                        </div>
+            
+                    </form>
+                </div>
+              </div>
+    
+            </div>
+
+        
+    </div>
+      
+{% endblock content %}

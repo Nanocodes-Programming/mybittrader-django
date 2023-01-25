@@ -1,0 +1,132 @@
+{% extends 'user/main.html' %} {% load static %} {% block content %}
+<div class="main-panel">
+    <div class="card-header text-center">
+        <h4>
+            All Referrals
+        </h4>
+    </div>
+  
+    <div class="content-wrapper">
+        <!--div class="row ">
+                  <div class="col-12">
+                    <div class="page-header" style="border: none; padding-bottom: 0px; margin-bottom: 10px;">
+                        <h5 class="page-title"><i class="fas fa-users"></i> My Referral History </h5>
+                    </div>
+                  </div>
+        
+                </div-->
+    
+        <div class="row">
+          <div class="col-md-5 stretch-card">
+            <div class="card text-center">
+              <div class="card-body d-flex flex-column px-2">
+                <div class="wrapper">
+                  <h5>Invite Your Friends</h5>
+                  <p><small class="text-muted ">Earn more when you refer your friends to invest with us. The reward on our
+                      referral program is dependent on the deposit plans.</small></p>
+                  <!--form class="forms-sample mt-3" action="ref.html" method="post">
+                              <div class="form-group">
+                                <input type="email" class="form-control" name='email' placeholder="Your Friend's Email Address"> </div>
+                                <button type="submit" name='invite_email' class="btn btn-warning btn-block"><i class='fa fa-envelope'></i> Invite Via Email</button>
+                            </form-->
+    
+                  <div class="row">
+                    <div class="col-6 col-md-12">
+                      <form class="forms-sample mt-2" action='ref.html' method="post">
+                        <a href="https://instagram.com?text={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
+                          target="_blank" class="btn btn-warning btn-block"><i class="fa fa-instagram"></i>Instagram</a>
+    
+                      </form>
+                    </div>
+                    <div class="col-6 col-md-12">
+                      <form class="forms-sample mt-2" action='ref.html' method="post">
+                        <a href="https://m.facebook.com/?soft=search" target="_blank" class="btn btn-primary btn-block"><i
+                            class="fa fa-facebook"></i>Facebook</a>
+    
+                      </form>
+                    </div>
+    
+                    <div class="col-6 col-md-12">
+                      <form class="forms-sample mt-2" action='ref.html' method="post">
+                        <a href="https://wa.me?text={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
+                          target="_blank" class="btn btn-success btn-block"><i class="fa fa-whatsapp"></i>Whatsapp</a>
+    
+                      </form>
+                    </div>
+    
+                    <div class="col-6 col-md-12">
+                      <form class="forms-sample mt-2" action='ref.html' method="post">
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}&text=JoinUs"
+                          target="_blank" class="btn btn-outline-primary btn-block"><i class="fa fa-twitter"></i>Twitter</a>
+    
+                      </form>
+                    </div>
+                  </div>
+    
+                  <form class="forms-sample mt-3">
+                    <div class="form-group">
+                      <input type="text" readonly id='ref_cop' class="form-control text-dark"
+                        value="{{ request.build_absolute_uri }}?referred_by={{ request.user.username }}">
+                    </div>
+                    <button id='ref_btn' type="button" onclick="copy_ref('ref_cop')"
+                      class="btn btn-primary btn-block"><i class='fa fa-copy'></i> Copy Referral Link</button>
+                  </form>
+    
+                </div>
+    
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-7 stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title"></h4>
+    
+    
+                <table id="order-listing" class="table table-responsive-sm">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for referral in referrals %}
+                    <tr>
+                      <th>{{ referral.username }}</th>
+                      <th>{{ referral.date_joined }}</th>
+                      <th>{{ profile.referral_price }}</th>
+                    </tr>
+                    {% empty %}
+                    you have not made any referrals
+                    {% endfor %}
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+    
+    
+    
+        </div>
+      </div>
+      <script>
+        function copy_ref(id_copy) {
+          // Get the text field
+          var copyText = document.getElementById(id_copy);
+        
+          // Select the text field
+          copyText.select();
+          copyText.setSelectionRange(0, 99999); // For mobile devices
+        
+           // Copy the text inside the text field
+          navigator.clipboard.writeText(copyText.value);
+        
+          // Alert the copied text
+          //alert("Copied the text: " + copyText.value);
+        }
+      </script>
+    {% endblock content %}

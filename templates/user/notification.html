@@ -1,0 +1,63 @@
+{% extends 'user/main.html' %} {% load static %} {% block content %}
+<div class="main-panel">
+    <div class="card-header text-center">
+        <h4>
+            All Referrals
+        </h4>
+    </div>
+    <div class="content-wrapper">
+        <!--div class="row ">
+        <div class="col-12">
+          <div class="page-header" style="border: none; padding-bottom: 0px; margin-bottom: 10px;">
+              <h5 class="page-title"><i class="fa fa-bell menu-icon"></i> Notifications </h5>
+          </div>
+        </div>
+
+      </div-->
+            <div class="row">
+            <div class="col-12">
+      <div class="card">
+        <div class="card-body px-2">
+                                <table  class="table table-responsive-sm" >
+               <thead>
+                  <tr>
+                      <th>All Notification</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                    {% for notification  in notifications_unreads %}
+                    <tr style="background-color:rgba(222,222,222,0.3);">
+                    <td>
+                      <a class="text-white" style="text-decoration: none;">
+                          <h6 class="preview-subject font-weight-bold mb-1"><i class='fa fa-bell-o' style="color:#27367f;">{{ notification.action_title }}</i></h6>
+                      <p class="font-weight-dark small-text" style="color:rgba(50,50,50,1)">{{ notification.action }}</p>
+                      <p class="font-weight-dark text-muted mb-0" style="font-size: 9px;color:rgba(70,70,70,1)">{{ notification.time }}</p>
+                      </a>
+                  </td>
+                </tr>
+                {% empty %}
+                <p class="fs-6 text-center"> You have no new notifications </p>
+                    {% endfor %}
+                                           
+                      {% for notification  in notifications %}
+                      <tr>
+                      <td>
+                        <a href='' class="text-white" style="text-decoration: none;">
+                            <h6 class="preview-subject font-weight-bold mb-1" ><i class='fa fa-bell-o' style="color:#27367f;">{{ notification.action_title }}</i></h6>
+                        <p class="font-weight-light small-text" style="color:rgba(50,50,50,1)">{{ notification.action }}</p>
+                        <p class="font-weight-light text-muted mb-0" style="font-size: 9px;color:rgba(50,50,50,1)">{{ notification.time }}</p>
+                        </a>
+                    </td>
+                  </tr>
+                      {% endfor %}
+                      
+                 
+                                        </tbody>
+              </table>
+                          </div>
+      </div>
+            </div>
+        </div>
+    </div>
+      
+{% endblock content %}

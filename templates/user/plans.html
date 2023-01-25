@@ -1,0 +1,62 @@
+{% extends 'user/main.html' %} {% load static %} {% block content %}
+    <div class="main-panel">
+     <!-- Content Header (Page header) -->
+     <section class="content-header">
+      <h1>
+       Investment Plans
+      </h1>
+      
+     </section>
+     <!-- Main content -->
+     <section class="content">
+      <!-- START Card With Image -->
+    
+      <div class="row">
+        {% for plan in plans %}
+        <div class="col-md-4 grid-margin stretch-card pricing-card px-2 py-1">
+          <div class="card border myBorder pricing-card-body py-1 px-3">
+            <div class="text-center pricing-card-head">
+              <h3 class="">{{ plan.plan_name | title }}</h3>
+              <p></p>
+
+            </div>
+            <ul class="list-unstyled plan-features myUl">
+              <li>Total Profit <b class=''>{{ plan.investment_profit_percent }}%</b></li>
+              <li>Duration <b class=''> {{ plan.number_of_days }} day(s)</b></li>
+              <li>Min Deposit <b class=''>{{ plan.investment_amount_lowest }}</b></li>
+              <li>Max Deposit <b class=''>{{ plan.investment_amount_highest }}</b></li>
+              <li>Referral Bonus <b class=''>5%</b></li>
+              <!--li>Withdrawal <b class='text-success'>Weekly</b></li-->
+            </ul>
+            
+          <form action="/user/plans" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="form-control-label">Enter Amount: <span class="text-danger">*</span></label>
+              <input type="number" name='amount' placeholder="0000.00" min="{{ plan.investment_amount_lowest }}" max="{{ plan.investment_amount_highest }}" class="form-control">
+              <input type="text" name="plan_name" id="" value="{{ plan.plan_name }}" style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
+              <button class="btn btn-success btn-block mb-3 my-2" name="invest" type="submit">Make Deposit</button>
+            </div>
+          </form>
+          
+
+            
+          </div>
+        </div>
+{% empty %}
+<p> There are no Packages</p>
+{% endfor %}
+     
+       <br/>
+       <br/>
+       <br/>
+       <br/>
+       <br/>
+       <br/>
+       <br/>
+       <br/>
+      </div>
+      <!-- /.row -->
+      <!-- END Card with image -->
+     </section>
+     {% endblock content %}
