@@ -1,0 +1,943 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Links of CSS files -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/flaticon.css" />
+    <link rel="stylesheet" href="/static/css/animate.min.css" />
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/static/css/boxicons.min.css" />
+    <link rel="stylesheet" href="/static/css/meanmenu.min.css" />
+    <link rel="stylesheet" href="/static/css/nice-select.min.css" />
+    <link rel="stylesheet" href="/static/css/fancybox.min.css" />
+    <link rel="stylesheet" href="/static/css/odometer.min.css" />
+    <link rel="stylesheet" href="/static/css/magnific-popup.min.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+      integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <title>Services - {{site.name}}</title>
+    <meta name="description" content="" />
+    <style>
+      .timee {
+        z-index: 20;
+        color: black;
+        font-size: 25px;
+        cursor: pointer;
+      }
+      .panel {
+        /* height: 300px !important; */
+
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 10;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 2rem;
+        border-radius: 5px;
+        display: none;
+        height: 0;
+        transition: all 1.5s linear;
+      }
+      .file {
+        min-height: 300px !important;
+        overflow: scroll;
+        display: block !important;
+        transition: all 0.5s linear;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        border: 2px solid grey;
+      }
+      @media (max-width: 550px) {
+        .file {
+          min-height: 300px !important;
+          width: 90%;
+        }
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/static/img/plux.png" />
+  </head>
+  <body>
+    <!-- Start Navbar Area -->
+    <div class="navbar-area bg-primary">
+        <div class="dibiz-responsive-nav">
+          <div class="container-fluid">
+            <div class="dibiz-responsive-menu">
+              <div class="logo">
+                <a href="{%url 'index' %}">
+                  <img src="{{ site.logo.url }}" alt="logo" style="width: 120px" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="dibiz-nav">
+          <div class="container-fluid">
+            <nav class="navbar navbar-expand-md navbar-light">
+              <a class="navbar-brand" href="{%url 'index' %}">
+                <img src="{{ site.logo.url }}" alt="logo" style="width: 120px" />
+              </a>
+  
+              <div class="collapse navbar-collapse mean-menu">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a href="{%url 'index' %}" class="nav-link">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{%url 'about' %}" class="nav-link">About</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{%url 'plans' %}" class="nav-link">Package</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link"
+                      >Pages <i class="bx bx-chevron-down"></i
+                    ></a>
+                    <ul class="dropdown-menu">
+                      <li class="nav-item">
+                        <a href="{%url 'terms' %}" class="nav-link"
+                          >Terms &amp; Conditions</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a href="{%url 'faqs' %}" class="nav-link">Faqs</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{%url 'services' %}" class="nav-link"
+                          > Services </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{%url 'news' %}" class="nav-link"> News </a>
+                      </li>
+                    </ul>
+                  </li>
+                          
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="/accounts/logout">
+                      Logout
+                      </a>
+                    </li>
+                  {% else %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="/accounts/login">
+                      Login
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/accounts/signup">
+                      Register
+                      </a>
+                    </li>
+                    {% endif %}
+  
+                  <li class="nav-item">
+                    <a href="{%url 'contact' %}" class="nav-link">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    <!-- End Navbar Area -->
+
+    <!-- Start Page Title Area -->
+    <section class="page-title-area">
+        <div class="container">
+          <div class="page-title-content">
+            <h1>Services</h1>
+          </div>
+        </div>
+  
+        <div class="shape2">
+          <img src="/static/img/shape/shape2.png" alt="image" />
+        </div>
+        <div class="shape3">
+          <img src="/static/img/shape/shape3.png" alt="image" />
+        </div>
+        <div class="shape5">
+          <img src="/static/img/shape/shape5.png" alt="image" />
+        </div>
+        <div class="shape6">
+          <img src="/static/img/shape/shape6.png" alt="image" />
+        </div>
+        <div class="shape7">
+          <img src="/static/img/shape/shape7.png" alt="image" />
+        </div>
+        <div class="shape8">
+          <img src="/static/img/shape/shape8.png" alt="image" />
+        </div>
+        <div class="lines">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </section>
+    <!-- End Page Title Area -->
+
+    <!-- Start About Area -->
+    <div
+      class="section section-x section-services tc-grey-alt"
+      style="padding: 2rem 0;"
+    >
+      <div class="container">
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6 order-lg-last offset-lg-1">
+            <div class="image-block">
+              <img src="/static/serv/8.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5">
+            <div class="text-block">
+              <h3>Forex Trading</h3>
+              <p>
+                Forex trading is one of the most exciting and rewarding forms of
+                trading that exists today. With its ever-changing nature, it
+                provides a great opportunity for those looking to earn a steady
+                income from the comfort of their own home. For those unfamiliar
+                with Forex trading, it involves the purchase and sale of foreign
+                currencies in order to make a profit. It is important to note
+                that Forex trading is not a get-rich-quick scheme, but rather an
+                investment with a significant amount of risk that should be
+                taken into consideration.
+              </p>
+              <button class="btn btn-primary accordy" id="1">Read more</button>
+            </div>
+            <div class="panel" id="1">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                The Forex market is open 24 hours a day, five days a week, and is the largest financial market in the world. It is estimated that over $5 trillion is traded daily, making it the most liquid market in the world. This means that prices are constantly changing and fluctuations can occur at any time.
+
+                The foreign exchange market can be a great way to diversify your portfolio, as well as a great way to take advantage of price movements in the global economy. However, it is important to understand the risks involved with Forex trading before you get started.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6">
+            <div class="image-block">
+              <img src="/static/serv/5.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5 offset-lg-1">
+            <div class="text-block">
+              <h3>Real Estate Investments</h3>
+              <p>
+                Real estate investments involves the purchase, ownership,
+                management, rental and/or sale of real estate for profit.
+                Improvement of realty property as part of a real estate
+                investment strategy is generally considered to be a
+                sub-specialty of real estate investing...
+              </p>
+              <button class="btn btn-primary accordy" id="2">Read more</button>
+            </div>
+            <div class="panel" id="2">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Real estate investments have long been a popular choice for those looking to diversify their portfolio and begin generating passive income. With the real estate market continuing to grow, it has become increasingly attractive to those seeking to make a profitable return from their investments. 
+
+When it comes to real estate investments, there are many options to consider. From traditional forms of investment such as buying and selling properties to modern approaches like real estate crowdfunding, there are plenty of opportunities to explore. 
+
+It is important to understand the pros and cons of each option before making a commitment. While there is potential for a high return on investment, there can also be significant risks involved. It is important to thoroughly research each option before proceeding. 
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6 order-lg-last offset-lg-1">
+            <div class="image-block">
+              <img src="/static/serv/9.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5">
+            <div class="text-block">
+              <h3>Gold Investments</h3>
+              <p>
+                Commonly seen as a great store of wealth, this precious metal is
+                also known as a reliable safe-haven asset. With a rich history
+                amongst almost all global cultures, gold remains a highly
+                popular...
+              </p>
+              <button class="btn btn-primary accordy" id="3">Read more</button>
+            </div>
+            <div class="panel" id="3">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                nvesting in gold is a great way to diversify and protect your portfolio. Gold is an asset that has stood the test of time and has been a reliable store of wealth for centuries. Many people choose to invest in gold to reduce the risk of their overall portfolio and as a hedge against economic uncertainty.
+
+Gold has always been a popular investment choice for adults of all ages. Over the years, gold has proven to be an excellent hedge against inflation, currency devaluation, and stock market volatility. With gold, you can enjoy a safe and reliable store of value that doesn’t fluctuate in value like other investments.
+
+If you’re looking for a reliable long-term investment, gold is one of the best choices you can make. Unlike stocks, gold prices tend to remain relatively stable and are not affected by market turbulence. Gold also has a low correlation with other asset classes, which makes it an ideal diversification tool for your portfolio.
+
+There are a few different ways to invest in gold. You can buy physical gold in the form of coins or bars, or you can invest in gold ETFs, which track the spot price of gold. Investing in gold futures and options is another great way to get exposure to the price of gold without having to buy physical gold.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6">
+            <div class="image-block">
+              <img src="/static/serv/1.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5 offset-lg-1">
+            <div class="text-block">
+              <h3>Retirement Planning</h3>
+              <p>
+                Saving for retirement can be a daunting task, but with a sound
+                strategy, it’s well within reach. igenius fx is here to bring
+                clarity to retirement...
+              </p>
+              <button class="btn btn-primary accordy" id="4">Read more</button>
+            </div>
+            <div class="panel" id="4">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Retirement planning is an essential part of financial planning and should never be taken lightly. With the right planning and strategy, you can ensure that you have enough financial resources to support your retirement years. 
+
+Retirement planning can be a complex process and is often times overwhelming. It is important to understand the different options available when it comes to retirement planning and to have a good understanding of your retirement goals. 
+
+The first step in retirement planning is to determine your retirement goals and objectives. This will help you to create a plan to achieve those goals. Identifying your goals and objectives can help you to determine how much money you need to save for retirement and how you can best save for those goals. 
+
+Another important step in retirement planning is to assess your current financial situation. This includes understanding your current income, expenses, debts, assets, and investments. Knowing your current financial situation can help you to decide how much you need to save for retirement and what type of investments to make. 
+
+Once you have a good understanding of your current financial situation and retirement goals, it is time to create a retirement plan. This includes deciding how much money you need to save for retirement, how much you can afford to save each month, and what type of investments you should make. Your retirement plan should also include a strategy for protecting your investments and ensuring that your retirement income is secure. 
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6 order-lg-last offset-lg-1">
+            <div class="image-block">
+              <img src="/static/serv/2.png" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5">
+            <div class="text-block">
+              <h3>Medical Cannabis</h3>
+              <p>
+                For many years we have been working conscientiously and with the
+                most diverse technologies and means. We have constantly
+                successfully completed our projects...
+              </p>
+              <button class="btn btn-primary accordy" id="5">Read more</button>
+            </div>
+            <div class="panel" id="5">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Medical cannabis is a term used to describe the medicinal use of cannabis, a plant with a long history of medicinal use. The cannabis plant contains more than 400 compounds, including at least 113 active cannabinoids that can affect the body in various ways. Cannabinoids are the primary active ingredients in medical cannabis and are responsible for many of its therapeutic effects.
+
+                In recent years, medical cannabis has become increasingly popular as a treatment for a wide range of medical conditions, particularly those that cause chronic pain, inflammation, nausea, and anxiety. It is important to note that medical cannabis is not a “cure-all” and should be used in conjunction with other treatments or therapies.
+                
+                Various studies have shown that medical cannabis can be used to treat a number of conditions, including chronic pain, nausea, depression, and anxiety. It can also help with sleep disorders, glaucoma, and even seizures. In addition, some studies suggest that it may be beneficial in treating certain types of cancer.
+                
+                It is important to note that the effects of medical cannabis can vary from person to person and that it is important to work with a knowledgeable healthcare provider to determine if it is right for you. When using medical cannabis, it is important to start with a low dose and gradually increase it over time to find the best dose for you. Additionally, it is important to be aware of potential side effects and to discuss any concerns you may have with your healthcare provider.
+                
+                Medical cannabis has been used to treat a wide range of medical conditions and has been found to be a safe and effective treatment option when used correctly. For those interested in exploring it as a treatment option, it is important to work closely with a knowledgeable healthcare provider to determine if it is right for you.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6">
+            <div class="image-block">
+              <img src="/static/serv/3.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5 offset-lg-1">
+            <div class="text-block">
+              <h3>Cryptocurrencies</h3>
+              <p>
+                igenius fx now offers all traders the opportunity to trade a
+                wide range of the top ranked digital coins 24/7*. Today
+                cryptocurrencies have become known to most people...
+              </p>
+              <button class="btn btn-primary accordy" id="6">Read more</button>
+            </div>
+            <div class="panel" id="6">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Investing in cryptocurrencies is becoming increasingly popular as people look to diversify their portfolios, hedge against inflation, and potentially reap large rewards. In the past few years, the cryptocurrency market has exploded in value and continues to garner a lot of attention from investors, speculators, and traders alike.
+
+Cryptocurrency investment is a high-risk, high-reward venture. New investors should be aware of the risks involved before investing. The volatile nature of the crypto markets means that prices can fluctuate wildly in a short amount of time. This volatility can result in large losses if an investor is not careful.
+
+Before investing in cryptocurrencies, it is important to understand the basics of how the market works and the potential risks involved. It is also important to do research and understand the different types of cryptocurrencies and the technology behind them.
+
+When investing in cryptocurrencies, it is important to diversify your holdings. This means investing in different types of coins and tokens. This helps to reduce the risk of a single coin’s performance dragging down the entire portfolio.
+
+It is also important to understand the different types of exchanges available to buy and sell cryptocurrencies. Different exchanges have different fees and trading pairs, so it is important to research and find the one that best suits your needs.
+
+Cryptocurrency trading also requires an understanding of technical analysis. Different charting tools can be used to identify entry and exit points, as well as potential trends. It is important to understand how these tools work before trading.
+
+Finally, it is important to stay informed about the latest news and developments in the cryptocurrency market. This can help an investor make informed decisions about when to buy and sell.
+
+Cryptocurrency investment can be a great way to diversify one’s portfolio and potentially reap large rewards. However, it is important to understand the risks involved and do extensive research before investing. By following these tips, investors can hopefully make smart and informed decisions about their investments.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6 order-lg-last offset-lg-1">
+            <div class="image-block">
+              <img src="/static/serv/4.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5">
+            <div class="text-block">
+              <h3>Financial Planning</h3>
+              <p>
+                A financial plan is a comprehensive evaluation of an investor’s
+                current and future financial state by using currently known
+                variables to predict future cash flows, asset values and
+                withdrawal...
+              </p>
+              <button class="btn btn-primary accordy" id="7">Read more</button>
+            </div>
+            <div class="panel" id="7">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Financial planning is an important part of adult life. It is the process of setting and reaching financial goals to achieve financial security and freedom. It requires a comprehensive understanding of one's financial situation and the ability to make decisions that will help reach financial objectives.
+
+                The first step in financial planning is to assess your current financial situation. This involves examining and evaluating your current income, expenses, liabilities, and assets. It is also important to consider your current budget to determine how much money you are spending, how much you are saving, and how much of your income is going to taxes. This assessment will provide valuable insight into your financial situation and can help you determine what areas need improvement and what areas can be invested in for future growth.
+                
+                Once you have a better understanding of your financial situation, it is important to develop a financial plan. This includes setting long-term and short-term goals and determining how you will reach them. It is also important to develop a budget that allows you to meet all of your financial objectives.
+                
+                In addition to having a financial plan, it is important to save and invest. This involves creating a savings and investment portfolio that will help you reach your financial goals. Investing can be a great way to increase your net worth, while saving can help you build an emergency fund or save for retirement.
+                
+                It is also important to understand the risks associated with investing and saving money, and to consider the costs of insurance and other services that can help protect your financial investment. Finally, it is important to monitor your financial progress and stay on track with your goals.
+                
+                Financial planning is an important part of adult life and can help you achieve financial security and freedom. Understanding your financial situation, setting and reaching financial objectives, and investing and saving money can all be critical components of financial planning. With the right plan and a commitment to success, financial independence and financial freedom can be within your reach.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6">
+            <div class="image-block">
+              <img src="/static/serv/6.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5 offset-lg-1">
+            <div class="text-block">
+              <h3>Oil and Gas</h3>
+              <p>
+                Surprising as it might be, anyone can invest in the oil market
+                to make a profit. Indeed, the development of online trading
+                platforms has allowed individuals to use their savings to
+                speculate on rising or falling oil prices...
+              </p>
+              <button class="btn btn-primary accordy" id="8">Read more</button>
+            </div>
+            <div class="panel" id="8">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                The oil and gas industry is one of the most important industries in the world. It provides energy for millions of people and is essential for powering the global economy. Despite its importance, the oil and gas industry is also one of the most complicated and misunderstood industries.
+
+From exploration and extraction to refining and distribution, the oil and gas industry is highly complex and involves a myriad of processes. On top of that, the industry is subject to a wide range of environmental, political, and economic forces. It is these factors that make the industry so dynamic and difficult to understand.
+
+This article will provide an overview of the oil and gas industry. We’ll start by looking at the different stages of the oil and gas supply chain. We’ll then explore the challenges that the industry faces and the potential solutions for overcoming them.
+
+The oil and gas supply chain begins with exploration and extraction. Oil and gas companies use a variety of methods to locate and extract oil and gas from the ground. This includes seismic surveys, drilling, and hydraulic fracturing.
+
+Once the oil and gas is extracted, it needs to be refined. Refining is a complex process that involves removing impurities from the oil and gas and turning it into a usable product. This process includes a number of steps, such as distillation, hydrotreating, and catalytic cracking.
+
+The final step in the oil and gas supply chain is distribution. This is the process of getting the oil and gas to consumers. It typically involves a combination of pipelines, tankers, and trucks.
+
+The oil and gas industry faces a number of challenges. One of the biggest is the market volatility that results from global supply and demand fluctuations. This can cause significant price fluctuations, making it difficult for companies to plan and invest.
+
+The industry is also subject to environmental regulations, which can increase costs and reduce profits. Additionally, oil and gas companies must often navigate complex political and economic forces, especially in emerging markets.
+
+Fortunately, there are potential solutions for overcoming some of these challenges. For instance, companies can use predictive analytics to anticipate market fluctuations and develop strategies to mitigate risks. They can also use advanced technology to reduce costs, increase efficiency, and improve safety.
+
+The oil and gas industry is essential for powering the global economy. Despite its complexity and challenges, there are potential solutions for overcoming them and ensuring the industry continues to be an important part of our lives.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6 order-lg-last offset-lg-1">
+            <div class="image-block">
+              <img src="/static/serv/7.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5">
+            <div class="text-block">
+              <h3>NFTs</h3>
+              <p>
+                Investing in the non-fungible token (NFT) market has become one of the hottest topics in the crypto world today. NFTs are unique digital assets that are immutable, indivisible, and not interchangeable with any other asset. This makes them incredibly valuable, and many investors are interested in getting in on the action ...
+              </p>
+              <button class="btn btn-primary accordy" id="9">Read more</button>
+            </div>
+            <div class="panel" id="9">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Investing in the non-fungible token (NFT) market has become one of the hottest topics in the crypto world today. NFTs are unique digital assets that are immutable, indivisible, and not interchangeable with any other asset. This makes them incredibly valuable, and many investors are interested in getting in on the action.
+
+                The NFT market is still relatively young, but it’s growing rapidly. NFTs have been used to tokenize a variety of assets, including artwork, collectibles, and digital game items. They’ve also been used to create digital stores, digital real estate, and even digital concert tickets. The possibilities are nearly endless, and as the market grows, so too does the potential for investors to make big profits.
+                
+                The key to successful NFT investment is research. Before investing, it’s important to understand the different types of NFTs and what they do. Different NFTs have different properties and use cases, so it’s important to understand the nuances of each before committing any money. Additionally, it’s wise to research the team behind the project, the platform it’s built on, and any regulatory issues that may be associated with it.
+                
+                It’s also important to remember that NFTs are still a risky investment. Just like any other type of investment, it’s crucial to diversify your portfolio and spread your risk across multiple projects. Additionally, it’s wise to keep an eye on the market, as NFT prices can be highly volatile.
+                
+                Finally, it’s important to remember to have fun when investing in NFTs. This is an exciting new asset class, and there are many interesting projects out there to explore. With the right research and careful risk management, investing in NFTs can be a great way to diversify your portfolio and potentially reap huge rewards.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+
+        <div class="row align-items-center gutter-vr-30px">
+          <div class="col-lg-6">
+            <div class="image-block">
+              <img src="/static/serv/stock.jpg" alt="" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-5 offset-lg-1">
+            <div class="text-block">
+              <h3>Stock or Share</h3>
+              <p>
+                A stock or share (also known as a company's "equity") is a
+                financial instrument that represents ownership in a company or
+                corporation and represents a proportionate claim on its assets
+                (what it owns) and earnings...
+              </p>
+              <button class="btn btn-primary accordy" id="10">Read more</button>
+            </div>
+            <div class="panel" id="10">
+              <i class="fa fa-times timee" aria-hidden="true"></i>
+              <p class="card-description">
+                Investing in stocks or shares can be a great way to increase your financial wealth and security. Whether you’re just starting out, or a seasoned investor, understanding the basics of stock or share investing can be beneficial.
+
+                Before getting started, it’s important to understand the difference between stocks and shares. Stocks are a form of ownership in a company and represent a claim on part of the company’s assets and earnings. Shares, on the other hand, are units of ownership in a company and represent a claim on part of the company’s assets and earnings.
+                
+                When you purchase stocks or shares, you become a shareholder in a company and are entitled to certain rights, such as voting and dividend rights. As a shareholder, you are also entitled to a portion of the company’s profits if the company is profitable.
+                
+                When investing in stocks or shares, it’s important to understand the different types of stocks or shares available. For example, blue chip stocks are typically large, well-established companies that are considered to be a safe investment. Growth stocks, on the other hand, are typically smaller companies that may have high growth potential but may be riskier investments.
+                
+                It’s also important to understand the different methods of investing in stocks or shares. You can buy stocks or shares directly from a company, or you may choose to purchase them through a broker. Additionally, you may choose to purchase stocks through an exchange-traded fund (ETF) or mutual fund.
+                
+                When investing in stocks or shares, it’s important to consider your goals and the amount of risk that you’re willing to take. Investing in stocks or shares can be risky, so it’s important to do your research and understand the different types of stocks or shares available and the risks associated with each. Additionally, it’s important to understand the costs associated with purchasing and trading stocks or shares.
+                
+                Ultimately, investing in stocks or shares can be a great way to increase your financial wealth and security. By understanding the basics of stock or share investing and doing your research, you can make informed decisions and increase your chances of success.
+              </p>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+      </div>
+      <!-- .container -->
+    </div>
+    </div>
+
+    <!-- END SECTION BLOG -->
+    <!-- End About Area -->
+
+    <!-- Start History Area -->
+    <!-- <section class="history-area ptb-100 bg-f9f9f9">
+        <div class="container">
+            <div class="section-title">
+                <span class="sub-title">Our History</span>
+                <h2>History Begins In 2017</h2>
+            </div>
+
+            <ol class="timeline history-timeline">
+                <li class="timeline-block">
+                    <div class="timeline-date">
+                        <span>2017</span>
+                        February 20
+                        <sup>th</sup>
+                    </div>
+
+                    <div class="timeline-icon">
+                        <span class="dot-badge"></span>
+                    </div>
+
+                    <div class="timeline-content">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="content">
+                                    <h3>Founded</h3>
+                                    <p>
+                                        Real innovations and a positive customer experience are the heart of successful
+                                        communication.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-12">
+                                <div class="image">
+                                    <img src="https://{{site.name}}.com//static/img/history/history-img1.jpg" alt="image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="timeline-block">
+                    <div class="timeline-date">
+                        <span>2018</span>
+                        January 14
+                        <sup>th</sup>
+                    </div>
+
+                    <div class="timeline-icon">
+                        <span class="dot-badge"></span>
+                    </div>
+
+                    <div class="timeline-content">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="content">
+                                    <h3>Global Success</h3>
+                                    <p>
+                                        Scalability was our priority and we got our target after raising our first Series
+                                        A funding round of $150M putting our valuation at $350M
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-12">
+                                <div class="image">
+                                    <img src="https://{{site.name}}.com//static/img/history/history-img2.jpg" alt="image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="timeline-block">
+                    <div class="timeline-date">
+                        <span>2019</span>
+                        March 25
+                        <sup>th</sup>
+                    </div>
+
+                    <div class="timeline-icon">
+                        <span class="dot-badge"></span>
+                    </div>
+
+                    <div class="timeline-content">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="content">
+                                    <h3>Founded Data Office</h3>
+                                    <p>
+                                        In 2016, we founded our Data center based off in Bulgaria. This houses all our investors'
+                                        information fully encrypted on a one way hashing protocol.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-12">
+                                <div class="image">
+                                    <img src="https://{{site.name}}.com//static/img/history/history-img3.jpg" alt="image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="timeline-block">
+                    <div class="timeline-date">
+                        <span>2020</span>
+                        December 10
+                        <sup>th</sup>
+                    </div>
+
+                    <div class="timeline-icon">
+                        <span class="dot-badge"></span>
+                    </div>
+
+                    <div class="timeline-content">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="content">
+                                    <h3>Scaling</h3>
+                                    <p>
+                                        In 2020, we raised a second round of Series B, putting our company at the forefront
+                                        with over $2B in valuation.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-12">
+                                <div class="image">
+                                    <img src="https://{{site.name}}.com//static/img/history/history-img4.jpg" alt="image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section> -->
+    <!-- End History Area -->
+
+    <!-- Start Footer Area -->
+    <footer class="footer-area">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="single-footer-widget">
+                <a href="{%url 'index' %}" class="logo">
+                  <img src="{{ site.logo.url }}" alt="logo" style="width: 120px" />
+                </a>
+                <p>
+                  {{site.name}} is a government approved financial institution poised
+                  to help businesses and individuals in asset management.
+                </p>
+              </div>
+            </div>
+  
+            <div class="col-lg-2 col-md-6 col-sm-6">
+              <div class="single-footer-widget pl-5">
+                <h3>Explore</h3>
+  
+                <ul class="footer-links-list">
+                  <li><a href="{%url 'index' %}">Home</a></li>
+                  <li><a href="{%url 'about' %}">About</a></li>
+                  <li><a href="{%url 'plans' %}">Packages</a></li>
+                </ul>
+              </div>
+            </div>
+  
+            <div class="col-lg-2 col-md-6 col-sm-6">
+              <div class="single-footer-widget pl-2">
+                <h3>Resources</h3>
+  
+                <ul class="footer-links-list">
+                  <li><a href="{%url 'terms' %}">Team</a></li>
+                  <li><a href="{%url 'contact' %}">Contact</a></li>
+                  <li><a href="{%url 'faqs' %}">FAQ</a></li>
+                </ul>
+              </div>
+            </div>
+  
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="single-footer-widget">
+                <h3>Address</h3>
+  
+                <ul class="footer-contact-info">
+                  <li>
+                    <i class="bx bx-map"></i>
+                    {{site.address}}
+                  </li>
+                  <li>
+                    <i class="bx bx-phone-call"></i
+                    ><a href="tel:+{{site.phone_number}}">+1{{site.phone_number}}</a>
+                  </li>
+                  <li>
+                    <i class="bx bx-envelope"></i
+                    ><a href="mailto:{{site.email}}">{{site.email}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+  
+          <div class="footer-bottom-area">
+            <div class="row align-items-center">
+              <div class="col-lg-6 col-md-6">
+                <p>
+                  <i class="bx bx-copyright"></i>2022
+                  <strong>{{site.name}}</strong> is Proudly Powered by
+                  <a target="_blank" href="{%url 'index' %}">{{site.name}}</a>
+                </p>
+              </div>
+  
+              <div class="col-lg-6 col-md-6">
+                <ul>
+                  <li><a href="{%url 'terms' %}">Terms & Conditions</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="shape16">
+          <img src="{% static 'img/shape/shape16.png' %}" alt="image" />
+        </div>
+</footer>
+    <!-- End Footer Area -->
+
+    <div class="go-top"><i class="bx bx-up-arrow-alt"></i></div>
+    <script>
+      let times = document.querySelectorAll('.timee')
+      let showEl = document.querySelectorAll('.accordy')
+      let information = document.querySelectorAll('.panel')
+      showEl.forEach((element) => {
+        element.addEventListener('click', function (e) {
+          information.forEach((info) => {
+            times.forEach((time) => {
+              time.addEventListener('click', function () {
+                info.classList.remove('file')
+              })
+            })
+            if (e.target.id == info.id) {
+              info.classList.toggle('file')
+            } else {
+              info.classList.remove('file')
+            }
+          })
+        })
+      })
+    </script>
+    <!-- Links of JS files -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/appear.min.js"></script>
+    <script src="/static/js/odometer.min.js"></script>
+    <script src="/static/js/magnific-popup.min.js"></script>
+    <script src="/static/js/fancybox.min.js"></script>
+    <script src="/static/js/owl.carousel.min.js"></script>
+    <script src="/static/js/meanmenu.min.js"></script>
+    <script src="/static/js/nice-select.min.js"></script>
+    <script src="/static/js/sticky-sidebar.min.js"></script>
+    <script src="/static/js/wow.min.js"></script>
+    <script src="/static/js/form-validator.min.js"></script>
+    <script src="/static/js/contact-form-script.js"></script>
+    <script src="/static/js/ajaxchimp.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <!-- Google language start -->
+    <style>
+      #google_translate_element {
+        z-index: 9999999;
+        position: fixed;
+        bottom: 25px;
+        left: 15px;
+      }
+
+      .goog-te-gadget {
+        font-family: Roboto, 'Open Sans', sans-serif !important;
+        text-transform: uppercase;
+      }
+      .goog-te-gadget-simple {
+        padding: 0px !important;
+        line-height: 1.428571429;
+        color: white;
+        vertical-align: middle;
+        background-color: black;
+        border: 1px solid #a5a5a599;
+        border-radius: 4px;
+        float: right;
+        margin-top: -4px;
+        z-index: 999999;
+      }
+      .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+        color: white;
+      }
+      .goog-te-gadget-icon {
+        background: none !important;
+        display: none;
+        color: white;
+      }
+      .goog-te-gadget-simple .goog-te-menu-value {
+        font-size: 12px;
+        color: white;
+        font-family: 'Open Sans', sans-serif;
+      }
+    </style>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+      window.onload = function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: 'en' },
+          'google_translate_element',
+        )
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://translate.google.com/translate_a/elementa0d8.js?cb=googleTranslateElementInit"
+    ></script>
+    <!-- Google language End -->
+    <div style="position: fixed; left: 0; bottom: 0; z-index: 1; width: 100%;">
+      <div
+        style="
+          width: 100%;
+          background-color: #ffffff;
+          overflow: hidden;
+          box-sizing: border-box;
+          text-align: right;
+          line-height: 14px;
+          font-size: 12px;
+          box-sizing: content-box;
+          font-feature-settings: normal;
+          text-size-adjust: 100%;
+          padding: 1px;
+          padding: 0px;
+          margin: 0px;
+        "
+      >
+        <div style="height: 40px;">
+          <iframe
+            src="https://widget.coinlib.io/widget?type=horizontal_v2&amp;theme=light&amp;pref_coin_id=1505&amp;invert_hover="
+            width="100%"
+            height="36"
+            scrolling="auto"
+            marginwidth="0"
+            marginheight="0"
+            frameborder="0"
+            border="0"
+            style="border: 0; margin: 0; padding: 0;"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <script
+      src="../code.tidio.co_443/njay3ysoqacmclqms7pxyjux0kaq5sha.js"
+      async
+    ></script>
+  </body>
+
+</html>

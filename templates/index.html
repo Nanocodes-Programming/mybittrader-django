@@ -2,6 +2,7 @@
 
 {% load static %}
  
+
 {%block content%}
     <!-- Start Main Banner Area -->
     <div class="main-banner" style="position: relative">
@@ -10,59 +11,98 @@
         autoplay
         loop
         muted
-        class="muted__vid"
-      ></video>
-      <div class="container" style="position: relative; z-index: 100">
-        <div class="banner-area-content text-white">
-          <p style="color: white">We Provide</p>
-          <h1
-            class="wow fadeInLeft text-white"
-            data-wow-delay="00ms"
-            data-wow-duration="1000ms"
-          >
-            CUSTOMIZED INVESTMENT OPTIONS
-          </h1>
-          <p
-            class="wow fadeInLeft text-white"
-            data-wow-delay="100ms"
-            data-wow-duration="1000ms"
-          >
-            Get investment portfolio tailored to meet you specific financial
-            objectives
-          </p>
+        class="muted__vid"></video>
+      
+        <div class="container" style="position: relative; z-index: 100">
+          <div class="banner-area-content text-white">
+            <p style="color: white">We Provide</p>
+            <h1
+              class="wow fadeInLeft text-white"
+              data-wow-delay="00ms"
+              data-wow-duration="1000ms"
+            >
+              CUSTOMIZED INVESTMENT OPTIONS
+            </h1>
+            <p
+              class="wow fadeInLeft text-white"
+              data-wow-delay="100ms"
+              data-wow-duration="1000ms"
+            >
+              Get investment portfolio tailored to meet you specific financial
+              objectives
+            </p>
 
-          <button
-            style="background-color: blue; border: none; padding: 0.5rem 3rem"
-          >
-            Start Investing
-          </button>
+            <button
+              style="background-color: blue; border: none; padding: 0.5rem 3rem"
+            >
+              Start Investing
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="shape2">
-        <img src="{% static 'img/shape/shape2.png' %}" alt="image" />
-      </div>
-      <div class="shape3">
-        <img src="{% static 'img/shape/shape3.png' %}" alt="image" />
-      </div>
-      <div class="shape5">
-        <img src="{% static 'img/shape/shape5.png' %}" alt="image" />
-      </div>
-      <div class="shape6">
-        <img src="{% static 'img/shape/shape6.png' %}" alt="image" />
-      </div>
-      <div class="shape7">
-        <img src="{% static 'img/shape/shape7.png' %}" alt="image" />
-      </div>
-      <div class="shape13">
-        <img src="{% static 'img/shape/shape13.png' %}" alt="image" />
-      </div>
-      <div class="shape8">
-        <img src="{% static 'img/shape/shape8.png' %}" alt="image" />
-      </div>
-    </div>
+        <div class="shape2">
+          <img src="{% static 'img/shape/shape2.png' %}" alt="image" />
+        </div>
+        <div class="shape3">
+          <img src="{% static 'img/shape/shape3.png' %}" alt="image" />
+        </div>
+        <div class="shape5">
+          <img src="{% static 'img/shape/shape5.png' %}" alt="image" />
+        </div>
+        <div class="shape6">
+          <img src="{% static 'img/shape/shape6.png' %}" alt="image" />
+        </div>
+        <div class="shape7">
+          <img src="{% static 'img/shape/shape7.png' %}" alt="image" />
+        </div>
+        <div class="shape13">
+          <img src="{% static 'img/shape/shape13.png' %}" alt="image" />
+        </div>
+        <div class="shape8">
+          <img src="{% static 'img/shape/shape8.png' %}" alt="image" />
+        </div>
+  </div>
     <!-- End Main Banner Area -->
-    <br /><br /><br /><br /><br /><br /><br /><br />
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="section boxes_after">
+      <p>How Work</p>
+      <h2>
+          work
+          <span>Process</span>
+      </h2>
+      <div class="people_assign">
+          <aside>
+              <img src="/static/serv/football.png" alt="football image">
+              <h2>Trading strategy</h2>
+              <p>
+                  Are you looking to take your trading to the next level? With the right trading strategy, you can maximize your profits and minimize your risks. Whether you are a beginner or a seasoned trader, having a well-crafted trading strategy is key to success.
+              </p>
+          </aside>
+          <aside>
+              <img src="/static/serv/group.png" alt="group of people image">
+              <h2>Group planning</h2>
+              <p>
+                  with the right tools and strategies, you can make group planning easier and more efficient. From creating a timeline and budget to building an effective team, there are plenty of steps you can take to make sure your group planning is a success.
+              </p>
+          </aside>
+          <aside>
+              <img src="/static/serv/handshake.jpg" alt="handshake image">
+              <h2>Final success</h2>
+              <p>
+                  As adults, we all strive for success in our lives. But what does success mean? Is it money? Is it fame? Or is it something else entirely? There is no one-size-fits-all answer, but there are certain steps we can take to help us reach a state of final success.
+              </p>
+          </aside>
+      </div>
+  </div>
     <!-- Start Boxes Area -->
     <section class="boxes-area pb-70">
       <div class="container">
@@ -121,7 +161,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> 
     <!-- End Boxes Area -->
 
     <!-- Start About Area -->
@@ -188,7 +228,7 @@
                   </li>
                 </ul>
                 <a href="{%url 'about' %}" class="default-btn">More About Us</a>
-                <a href="{% static 'img/cert.jpeg' %}" class="default-btn">View certificate</a>
+                <a href="./static/img/cert.png" class="default-btn">View certificate</a>
               </div>
             </div>
           </div>

@@ -10,6 +10,8 @@ urlpatterns = [
                     path('',views.index, name='index'),
                     path('plans',views.plans, name='plans'),
                     path('terms',views.terms, name='terms'),
+                    path('news',views.news, name='news'),
+                    path('services',views.services, name='services'),
                     
 ]
     #urls created                   

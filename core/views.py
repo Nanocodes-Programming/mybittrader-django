@@ -39,7 +39,33 @@ def faqs(request):
         'site':site
     }
     return render(request,'faqs.html',context)
-                
+
+def news(request):
+    try:
+        site = Site.objects.get(pk=1)
+    except Site.DoesNotExist:
+        site = Site.objects.create(pk=1)
+        site.save()
+    
+    context ={
+        'site':site
+    }
+    return render(request,'news.html',context)
+
+def services(request):
+    try:
+        site = Site.objects.get(pk=1)
+    except Site.DoesNotExist:
+        site = Site.objects.create(pk=1)
+        site.save()
+    
+    context ={
+        'site':site
+    }
+    return render(request,'services.html',context)
+   
+
+
 def index_2(request):
     return render(request,'index-2.html', {})
                 
