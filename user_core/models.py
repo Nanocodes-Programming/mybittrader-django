@@ -49,7 +49,7 @@ class Kyc(models.Model):
 
 
 import datetime 
-import pytz 
+
 
 
 from decimal import *
