@@ -33,9 +33,9 @@
             {% csrf_token %}
             <div class="form-group">
               <label class="form-control-label">Enter Amount: <span class="text-danger">*</span></label>
-              <input type="number" name='amount' placeholder="0000.00" min="{{ plan.investment_amount_lowest }}" max="{{ plan.investment_amount_highest }}" class="form-control">
+              <input type="number" step="any" name='amount' placeholder="0000.00" min="{{ plan.investment_amount_lowest }}" max="{{ plan.investment_amount_highest }}" class="form-control">
               <input type="text" name="plan_name" id="" value="{{ plan.plan_name }}" style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
-              <button class="btn btn-success btn-block mb-3 my-2" name="invest" type="submit">Make Deposit</button>
+              <button class="btn btn-success btn-block mb-3 my-2" name="invest" type="submit">Proceed With Investment</button>
             </div>
           </form>
           
@@ -50,6 +50,12 @@
        <br/>
        <br/>
        <br/>
+       <div class="col-md-4 grid-margin stretch-card pricing-card px-2 py-1">
+        {% if profile.live_profit %}
+          <h2 style="text-align: bottom;">You have a running investment of {{profile.plan_amount}},
+             which already accummulated over {{profile.live_profit}} </h2>
+        {% endif %}
+       </div>
        <br/>
        <br/>
        <br/>

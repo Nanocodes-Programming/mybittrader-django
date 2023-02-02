@@ -1,67 +1,104 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import WalletAddress,Deposit,Profile,Notification,Withdraw,Transfer, Transaction, InvestmentPlan,Referral,Site
+from .models import WalletAddress,Deposit,Profile,Notification,Withdraw,Transfer, Transaction, InvestmentPlan,Referral,Site, Kyc
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from datetime import timedelta,date
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 User = get_user_model()
 # Create your views here.
 
+def send_email(subject,body,recipient):
+    site = Site.objects.get(pk=1)
+    name = site.name
+    address = site.address
+    phone_number = site.phone_number
+    context ={
+        "title": subject,
+        "content":body,
+        "name": name,
+        "address": address,
+        "phone_number":phone_number
+        }   
+    html_content = render_to_string("emails.html", context)
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,
+        text_content,
+        settings.EMAIL_HOST_USER ,
+        [recipient]
+    )
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+
+import datetime 
+import pytz 
+
+
+
+
 @login_required(login_url='/accounts/login')
 def user_index(request):
-    
-    user = User.objects.get(username = request.user.username)
-    
+    user = User.objects.get(username=request.user.username)
     try:
         site = Site.objects.get(pk=1)
     except Site.DoesNotExist:
         site = Site.objects.create(pk=1)
         site.save()
-        
-    if not Profile.objects.filter(user= user.id):
+
+    if not Profile.objects.filter(user=user.id).exists():
         return redirect('/user/profile')
-    
+
     profile = Profile.objects.get(user=user)
-    notifications_unread_count = Notification.objects.filter(profile=profile,read='False').count()
-    notifications_unread = Notification.objects.filter(profile=profile,read='False').order_by('-time')[:3]
-    live_profit = 0.00
-    book_balance = 0.00
+    notifications_unread_count = Notification.objects.filter(
+        profile=profile, read='False').count()
+    notifications_unread = Notification.objects.filter(
+        profile=profile, read='False').order_by('-time')[:3]
     transactions = Transaction.objects.filter(profile=profile).order_by('-time')[:3]
-    if profile.plan_name != None:
+    # Convert plan_amount to a float
+    plan_amount = profile.plan_amount 
+
+    if profile.plan_name:
         plan = InvestmentPlan.objects.get(plan_name=profile.plan_name)
-        plan_end_date = profile.plan_end_date
-        time_difference_days = plan_end_date - date.today()
+        today = datetime.datetime.today().astimezone(None)
+        plan_end_date = profile.plan_end_date.astimezone(None)
+        time_difference_days = plan_end_date - today
         time_difference = time_difference_days.days
-        
+
         if time_difference > 0:
-            live_profit = (profile.plan_amount * plan.investment_profit_percent) / 100
+            live_profit = (
+                plan_amount * plan.investment_profit_percent) / 100
             live_profit = live_profit / time_difference
-            book_balance = live_profit + profile.available_balance
-            
+            book_balance = profile.book_balance + live_profit
         else:
-            profile.live_profit = (profile.plan_amount * plan.investment_profit_percent) / 100
-            profile.book_balance = profile.live_profit + profile.available_balance
-            profile.available_balance = profile.book_balance
+            live_profit = (plan_amount * plan.investment_profit_percent) / 100
+            book_balance = profile.book_balance + live_profit
+            profile.live_profit = live_profit
+            profile.book_balance = book_balance
             profile.plan_name = None
             profile.plan_days = None
             profile.plan_end_date = None
-            profile.plan_amount = None
+            plan_amount = None
             profile.save()
-            
+    else:
+        live_profit = profile.live_profit
+        book_balance = profile.book_balance
 
     context = {
-        'profile':profile,
+        'profile': profile,
         'live_profit': live_profit,
         'book_balance': book_balance,
-        'notifications_unread_count':notifications_unread_count,
-        'transactions':transactions,
+        'notifications_unread_count': notifications_unread_count,
+        'transactions': transactions,
         'notifications_unread': notifications_unread,
-        'site':site
+        'site': site,
     }
-    return render(request,'user/index.html',context)
+    return render(request, 'user/index.html', context)
 
 
 @login_required(login_url='/accounts/login')
@@ -129,6 +166,52 @@ def user_profile(request):
     return render(request,'user/profile.html')
 
 
+
+@login_required(login_url='/accounts/login')
+def user_kyc(request):
+    profile = Profile.objects.get(user=request.user)
+    # instance = Kyc.objects.get(user=request.user)
+    # verified = instance.verified
+    try:
+        instance = Kyc.objects.get(user=request.user)
+        verified = instance.verified
+    except Kyc.DoesNotExist:
+        instance = None
+        verified = False
+    if request.method == 'POST':
+        user = request.user
+        country = request.POST['country']
+        Id_type = request.FILES.get('Id_type')
+        first_name = request.POST['f_name']
+        last_name = request.POST['l_name']
+        address = request.POST['address']
+        proof_address = request.FILES.get('poa')
+
+
+        if Kyc.objects.filter(user=user).exists():
+            profile = Kyc.objects.get(user=user)
+            profile.country = country
+            profile.Id_type = Id_type
+            profile.first_name = first_name
+            profile.last_name = last_name
+            profile.address = address
+            profile.proof_address = proof_address
+            profile.save()
+            action_title = "Details submitted for kyc"
+            action = "Pending Verification"
+            notification = Notification.objects.create(profile=profile,action_title=action_title,action=action)
+            notification.save()
+        else:
+            profile = Kyc.objects.create(user=user,country=country, Id_type=Id_type, first_name=first_name, last_name=last_name, address=address, proof_address=proof_address)
+            profile.save()
+        
+        return redirect('/user/')
+
+    else:
+        user = request.user
+    return render(request,'user/kyc.html', {'user': user, 'profile': profile, 'verified': verified})
+
+
 @login_required(login_url='/accounts/login')
 def user_deposit(request):
     user = User.objects.get(username = request.user.username)
@@ -144,7 +227,11 @@ def user_deposit(request):
     
     profile = Profile.objects.get(user=user)
     deposits = Deposit.objects.filter(profile=profile).order_by('-time')[:5]
-    wallet = WalletAddress.objects.get(id=1)
+    try:
+        wallet = WalletAddress.objects.get(id=1)
+    except WalletAddress.DoesNotExist:
+        wallet = WalletAddress.objects.create(pk=1)
+        wallet.save()
     notifications_unread_count = Notification.objects.filter(profile=profile,read='False').count()
     notifications_unread = Notification.objects.filter(profile=profile,read='False').order_by('-time')[:3]
     context = {
@@ -162,21 +249,27 @@ def user_deposit(request):
         usdt_amount = request.POST['usdt_amount']
         deposit = Deposit.objects.create(profile=profile,amount=amount,wallet_type=wallet_type,wallet_address=wallet_address,usdt_amount=usdt_amount)
         deposit.save()
-        action = f'{request.user.username} has deposited {amount} {wallet_type} into {wallet_address}'
+        action = f'You have deposited {amount} {wallet_type} into {wallet_address}'
         action_title = 'Deposit Pending'
         notification = Notification.objects.create(profile=profile,action_title=action_title,action=action)
         notification.save()
         transaction = Transaction.objects.create(profile=profile,category='deposit',action_title='Deposit Requested',action=action)
         transaction.save()
         body = f'{profile.user.username} has deposited {deposit.amount} {deposit.wallet_type} into {deposit.wallet_address}'
+        body_two = f'You have deposited {deposit.amount} {deposit.wallet_type} into {deposit.wallet_address}'
         subject = 'Deposit Requested'
-        send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
+        # send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
+        # send_mail(subject=subject,message=body_two,from_email=settings.EMAIL_HOST_USER,recipient_list=[request.user.email])
+        send_email(subject,body,settings.RECIPIENT_ADDRESS)
         
-        return redirect('/user/')
+        send_email(subject,body_two,request.user.email)
+        messages.info(request, 'You have applied for a deposit')
+        return redirect('/user/deposit')
         
     return render(request,'user/deposit.html',context)
 
-
+    
+    
 @login_required(login_url='/accounts/login')
 def user_notification(request):
     user = User.objects.get(username = request.user.username)
@@ -239,27 +332,34 @@ def user_plans(request):
         amount = request.POST['amount']
         plan_name = request.POST['plan_name']
         profile = Profile.objects.get(user=user)
+        profile.save
         if int(amount) > profile.available_balance:
             messages.info(request, 'You do not have enough funds')
             return render(request,'user/plans.html',context)
-        if profile.plan_name:
+        if profile.live_profit:
             messages.info(request, 'You already have an existing plan')
             return render(request,'user/plans.html',context)
         plan = InvestmentPlan.objects.get(plan_name=plan_name)
         profile.plan_name = plan_name
         profile.plan_days = plan.number_of_days
-        profile.plan_end_date = date.today()+timedelta(days=plan.number_of_days)
+        today = datetime.datetime.today().astimezone(None)
+        profile.plan_end_date = today +timedelta(days=plan.number_of_days)
         profile.plan_amount = amount
         referred_user = profile.referred_by
         if referred_user:
-            profile = Profile.objects.get(user=referred_user)
+            user_model = User.objects.get(username=referred_user)
+            user_profile = Profile.objects.get(user=user_model)
             referralPrice = plan.referral_profit_percent * amount
-            profile.referralPrice += referralPrice
-            profile.available_balance += referralPrice
-            profile.save()
+            user_profile.referralPrice += referralPrice
+            user_profile.available_balance += referralPrice
+            user_profile.save()
+            send_email("Referral Gain",f'Your referral gain is {referralPrice} from {request.user.username}',settings.RECIPIENT_ADDRESS)
+
         profile.save()
-        return redirect('/user/')
-        
+        messages.info(request, 'You have applied for the ' + plan_name + ' plan ')
+        send_email('You have applied for the ' + plan_name + ' plan ',plan_name,request.user.email)
+        return redirect('/user/plans')
+    # profile.save()
     return render(request,'user/plans.html',context)
 
 
@@ -318,8 +418,10 @@ def user_support(request):
     if request.method == 'POST':
         body = request.POST['body']
         subject = request.POST['subject']
-        send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
-        return redirect('/user/')
+        messages.info(request, 'Your email has been sent')
+        #send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
+        send_email(subject,body,settings.RECIPIENT_ADDRESS)
+        return redirect('/user/support')
     return render(request,'user/support.html',context)
 
 
@@ -354,56 +456,81 @@ def user_transaction(request):
     return render(request,'user/transaction.html',context)
 
 
+
+
 @login_required(login_url='/accounts/login')
 def user_transfer(request):
-    user = User.objects.get(username = request.user.username)
-    
-    try:
-        site = Site.objects.get(pk=1)
-    except Site.DoesNotExist:
-        site = Site.objects.create(pk=1)
-        site.save()
-        
-        
-    if not Profile.objects.filter(user= user.id):
-        return redirect('/user/profile')
-    
-    profile = Profile.objects.get(user=user)
-    notifications_unread_count = Notification.objects.filter(profile=profile,read='False').count()
-    notifications_unread = Notification.objects.filter(profile=profile,read='False').order_by('-time')[:3]
-    transfers = Transfer.objects.filter(profile=profile).order_by('-time')[:5]
-    wallet = WalletAddress.objects.get(id=1)
+    on_development = True
+    sender_user = User.objects.get(username=request.user.username)
+    sender_profile = Profile.objects.get(user=sender_user)
+    notifications_unread_count = Notification.objects.filter(
+        profile=sender_profile, read=False).count()
+    notifications_unread = Notification.objects.filter(
+        profile=sender_profile, read=False).order_by("-time")[:3]
+    transfers = Transfer.objects.filter(
+        sender=sender_profile).order_by("-time")[:5]
+    wallet, created = WalletAddress.objects.get_or_create(id=1)
+    site, created = Site.objects.get_or_create(id=1)
     context = {
-        'profile':profile,
-        'wallet':wallet,
-        'transfers': transfers,
-        'notifications_unread_count':notifications_unread_count,
-        'notifications_unread': notifications_unread,
-        'site':site
+        "profile": sender_profile,
+        "wallet": wallet,
+        "transfers": transfers,
+        "notifications_unread_count": notifications_unread_count,
+        "notifications_unread": notifications_unread,
+        "site": site,
+        'on_development' : on_development
     }
-    if request.method == 'POST':
-        if profile.plan_name:
-            messages.info(request, 'You have an existing plan')
-            return render(request,'user/transfer.html',context)
-        wallet_address = request.POST['wallet_address']
-        amount = request.POST['amount']
-        wallet_type = request.POST['wallet_type']
-        usdt_amount = request.POST['usdt_amount']
-        transfer = Transfer.objects.create(profile=profile,amount=amount,wallet_type=wallet_type,wallet_address=wallet_address,usdt_amount=usdt_amount)
-        transfer.save()
-        action = f'{request.user.username} has transferred {amount} {wallet_type} into {wallet_address}'
-        action_title = 'Transfer Pending'
-        notification = Notification.objects.create(profile=profile,action_title=action_title,action=action)
-        notification.save()
-        transaction = Transaction.objects.create(profile=profile,category='transfer',action_title='Transfer Requested',action=action)
-        transaction.save()
-        body = f'{profile.user.username} has transferred {transfer.amount} {transfer.wallet_type} into {transfer.wallet_address}'
-        subject = 'Transfer Requested'
-        send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
-        
-        return redirect('/user/')
-    return render(request,'user/transfer.html',context)
+    if request.method == "POST":
+        receiver_username = request.POST.get("username", None)
+        if not receiver_username:
+            messages.info(request, "You did not include a receiver username")
+            return redirect("/user/")
 
+        try:
+            receiver_user = User.objects.get(username=receiver_username)
+            receiver_profile = Profile.objects.get(user=receiver_user)
+            amount = request.POST.get("amount", None)
+            username = request.POST.get("username", None)
+            usdt_amount = float(request.POST.get("usdt_amount", 0))
+            if usdt_amount > sender_profile.available_balance:
+                messages.info(request, "You have insufficient funds")
+                return redirect("/user/")
+            
+            transfer = Transfer.objects.create(
+                sender=sender_profile,
+                receiver=receiver_profile,
+                amount=usdt_amount,
+                usdt_amount=usdt_amount,
+                username=username
+            )
+            action = f"You have transferred {usdt_amount} Units of USD to {receiver_username}"
+            action_title = "Transfer Successful"
+            notification = Notification.objects.create(
+                profile=sender_profile,
+                action_title=action_title,
+                action=action
+            )
+            transaction = Transaction.objects.create(
+                profile=sender_profile,
+                category="transfer",
+                action_title="Transfer Requested",
+                action=action
+            )
+            body = f"{sender_profile.user.username} has transferred {transfer.amount}USD to {receiver_profile.user.username}"
+            body_two = f"You have transferred {transfer.amount}USD to {receiver_profile.user.username}"
+            body_three = f"{sender_profile.user.username} has transferred {transfer.amount} USD to you"
+            subject = "Transfer Requested"
+            send_email(subject, body, settings.RECIPIENT_ADDRESS)
+            send_email(subject, body_two, request.user.email)
+            send_email(subject, body_three, receiver_profile.user.email)
+            messages.info(request, 'You have applied for a transfer')
+            return redirect('/user/transfer')
+
+        except User.DoesNotExist:
+            messages.info(request, 'The user does not exist')
+            return redirect('/user/transfer')
+        
+    return render(request,'user/transfer.html',context)
 
 @login_required(login_url='/accounts/login')
 def user_withdraw(request):
@@ -422,7 +549,11 @@ def user_withdraw(request):
     notifications_unread_count = Notification.objects.filter(profile=profile,read='False').count()
     notifications_unread = Notification.objects.filter(profile=profile,read='False').order_by('-time')[:3]
     withdraws = Withdraw.objects.filter(profile=profile).order_by('-time')[:5]
-    wallet = WalletAddress.objects.get(id=1)
+    try:
+        wallet = WalletAddress.objects.get(id=1)
+    except WalletAddress.DoesNotExist:
+        wallet = WalletAddress.objects.create(pk=1)
+        wallet.save()
     context = {
         'profile':profile,
         'wallet':wallet,
@@ -432,26 +563,37 @@ def user_withdraw(request):
         'site':site
     }
     if request.method == 'POST':
-        if profile.plan_name:
-            messages.info(request, 'You have an existing plan')
-            return render(request,'user/withdraw.html',context)
+        # if profile.plan_name:
+        #     messages.info(request, 'You have an existing plan')
+        #     return render(request,'user/withdraw.html',context)
         wallet_address = request.POST['wallet_address']
+        if wallet_address == None or wallet_address =='':
+            messages.info(request, 'You did not add a withdrawal address')
+            return redirect('/user/withdraw')
         amount = request.POST['amount']
         wallet_type = request.POST['wallet_type']
         usdt_amount = request.POST['usdt_amount']
+        if float(usdt_amount) > profile.available_balance:
+            messages.info(request, 'Your have insufficient funds')
+            return redirect('/user/withdraw')
+            
         withdraw = Withdraw.objects.create(profile=profile,amount=amount,wallet_type=wallet_type,wallet_address=wallet_address,usdt_amount=usdt_amount)
         withdraw.save()
-        action = f'{request.user.username} has withdrawn {amount} {wallet_type} into {wallet_address}'
+        action = f'You has withdrawn {amount} {wallet_type} into {wallet_address}'
         action_title = 'Withdrawal Pending'
         notification = Notification.objects.create(profile=profile,action_title=action_title,action=action)
         notification.save()
         transaction = Transaction.objects.create(profile=profile,category='withdraw',action_title='Withdraw Requested',action=action)
         transaction.save()
         body = f'{profile.user.username} has withdrawn {withdraw.amount} {withdraw.wallet_type} into {withdraw.wallet_address}'
+        body_two = f'You have withdrawn {withdraw.amount} {withdraw.wallet_type} into {withdraw.wallet_address}'
         subject = 'Withdrawal Requested'
-        send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
-        
-        return redirect('/user/')
+        #send_mail(subject=subject,message=body,from_email=settings.EMAIL_HOST_USER,recipient_list=[settings.RECIPIENT_ADDRESS])
+        #send_mail(subject=subject,message=body_two,from_email=settings.EMAIL_HOST_USER,recipient_list=[request.user.email])
+        send_email(subject,body,settings.RECIPIENT_ADDRESS)
+        send_email(subject,body_two,request.user.email)
+        messages.info(request, 'You have applied for withdrawal')
+        return redirect('/user/withdraw')
     return render(request,'user/withdraw.html',context)
 
 
@@ -481,6 +623,7 @@ def user_referral(request):
     } 
     return render(request,'user/referral.html',context)
 
+
 def my_custom_error_view(request):
     return render(request,'error.html')
 
@@ -494,6 +637,3 @@ def my_custom_bad_request_view(request,exception):
 
 def my_custom_permission_denied_view(request,exception):
     return render(request,'error.html')
-
-       
-

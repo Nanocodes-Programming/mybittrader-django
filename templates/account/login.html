@@ -22,9 +22,8 @@
                         <div class="mb-md-5 mt-md-4 pb-5">
                             <h2 class="fw-bold mb-2 text-uppercase">LOGIN</h2>
                             <p class="text-white-50 mb-5">Please enter your email and password!</p>
-                            <form method="post" action=" {% url 'account_login' %}">
+                            <form method="POST" action="{% url 'account_login' %}" class="login">
                                     {% csrf_token %}
-                                    <input type="hidden" name="_token" value="NXEVCmrmbzCBb3iTF5HYQbjuiG1SdKB9N1YnURJa">                                <div class="row">
                                     {% for form in form%}
                                     <div class="form-outline form-white mb-4 col-md-12">
                                         {{form}}

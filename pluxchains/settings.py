@@ -142,7 +142,7 @@ LOGIN_REDIRECT_URL = '/user/'
 
 CSRF_TRUSTED_ORIGINS = ['https://*.mybittraders.co']
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
@@ -165,7 +165,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 # i installed django_smtp_ssl to use 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')

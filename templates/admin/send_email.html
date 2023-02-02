@@ -1,0 +1,10 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<form method="post" class="form-horizontal">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="{% trans 'Send' %}" class="default" name="apply" id="submit-id-apply">
+</form>
+{% endblock %}

@@ -18,6 +18,8 @@
   <!-- inject:css -->
   <!-- endinject -->
   <!-- Layout styles -->
+  <!-- jivo chat -->
+  <script src="//code.jivosite.com/widget/eVdFS6pgNR" async></script>
   <style>
     .rowgi {
       display: flex;
@@ -46,7 +48,7 @@
   </style>
   <link href="{% static 'user/assets/css/style.css' %}" rel="stylesheet" />
   <!-- End layout styles {% static 'user/assets/images/favicon.ico' %}-->
-  <link href="{% static 'finlead.png' %}" rel="shortcut icon">
+  <link href="{% static 'images/logo.png' %}" rel="shortcut icon">
   </link>
 </head>
 
@@ -156,7 +158,9 @@
               <div class="dropdown-divider">
               </div>
               <h6 class="p-3 mb-0 text-center">
-                See all notifications
+                <a class=" py-3 " href='/user/notification'>
+                  <p> See all notifications </p>
+                 </a>
               </h6>
             </div>
           </li>
@@ -175,8 +179,10 @@
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" data-toggle="offcanvas"
           type="button">
+          <a href='/'>
           <span class="mdi mdi-menu">
           </span>
+        </a>
         </button>
       </div>
     </nav>
@@ -215,6 +221,21 @@
       </ul>
     </div>
     {% endif %}
+    <div class="col-lg-12 col-md-12">
+      <div class="top-header-contact-info text-end">
+          <div id="ytWidget" style="float: right !important;     position: fixed; z-index: 1000;right: 10px;bottom: 100px;"></div><script src="https://translate.yandex.net/website-widget/v1/widget.js?widgetId=ytWidget&pageLang=en&widgetTheme=light&autoMode=true" type="text/javascript"></script>
+          
+          
+          <style>
+              
+              .yt-wrapper yt-wrapper_align_right, .yt-servicelink {display: none !important;
+                  
+              }
+              
+          </style>
+          
+      </div>
+  </div>
           <li class="nav-item">
             <a class="nav-link" href="/user/">
               <span class="menu-title">
@@ -326,7 +347,17 @@
               <i class="mdi mdi-autorenew menu-icon">
               </i>
             </a>
-          </li><li class="nav-item">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/kyc">
+              <span class="menu-title">
+                KYC Verification
+              </span>
+              <i class="mdi mdi-autorenew menu-icon">
+              </i>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/accounts/logout">
               <span class="menu-title">
                 Logout
@@ -381,6 +412,7 @@
 </script>
 <script src="{% static 'user/assets/js/todolist.js' %}">
 </script>
+
 <!-- End custom js for this page -->
 </body>
 

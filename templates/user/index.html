@@ -40,7 +40,7 @@
                 Available Balance
               </p>
               <h1 class="font-weight-medium mb-0">
-                ${{ profile.available_balance|intcomma }}
+                ${{ profile.available_balance |intcomma }}
               </h1>
             </div>
           </div>
@@ -170,7 +170,7 @@
               <h5>Invite Your Friends</h5>
               <p><small class="text-muted ">Earn more when you refer your friends to invest with us. The reward on our
                   referral program is dependent on the deposit plans.</small></p>
-              <!--form class="forms-sample mt-3" action="ref.html" method="post">
+              <!--form class="forms-sample mt-3" action="#" method="post">
                           <div class="form-group">
                             <input type="email" class="form-control" name='email' placeholder="Your Friend's Email Address"> </div>
                             <button type="submit" name='invite_email' class="btn btn-warning btn-block"><i class='fa fa-envelope'></i> Invite Via Email</button>
@@ -178,14 +178,14 @@
 
               <div class="row">
                 <div class="col-6 col-md-12">
-                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                  <form class="forms-sample mt-2" action='#' method="post">
                     <a href="mailto:?subject=Invitation&amp;body=Hello+dear%2C+I+am+happy+to+invite+you+to+join+reefresources+%2C+a+reliable+investment+website+that+helps+you+to+trade+and+return+your+profit.+Use+my+link+to+register+{{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
                       target="_blank" class="btn btn-warning btn-block"><i class="fa fa-email"></i>Email</a>
 
                   </form>
                 </div>
                 <div class="col-6 col-md-12">
-                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                  <form class="forms-sample mt-2" action='#' method="post">
                     <a href="https://m.facebook.com/?soft=search" target="_blank" class="btn btn-primary btn-block"><i
                         class="fa fa-facebook"></i>Facebook</a>
 
@@ -193,7 +193,7 @@
                 </div>
 
                 <div class="col-6 col-md-12">
-                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                  <form class="forms-sample mt-2" action='#' method="post">
                     <a href="https://wa.me?text={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}"
                       target="_blank" class="btn btn-success btn-block"><i class="fa fa-whatsapp"></i>Whatsapp</a>
 
@@ -201,7 +201,7 @@
                 </div>
 
                 <div class="col-6 col-md-12">
-                  <form class="forms-sample mt-2" action='ref.html' method="post">
+                  <form class="forms-sample mt-2" action='#' method="post">
                     <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}?referred_by={{ request.user.username }}&text=JoinUs"
                       target="_blank" class="btn btn-outline-primary btn-block"><i class="fa fa-twitter"></i>Twitter</a>
 
@@ -267,7 +267,7 @@
       navigator.clipboard.writeText(copyText.value);
     
       // Alert the copied text
-      //alert("Copied the text: " + copyText.value);
+    alert("Copied the text: " + copyText.value);
     }
   </script>
   {% endblock content %}

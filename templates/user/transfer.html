@@ -20,7 +20,20 @@
                 </div-->
         <div class="row">
           <div class='text-center px-2 py-3 w-100'> {% for message in messages %} <p class="text-center w-100" style="font-size:1.1rem;">{{message}}</p> {% endfor %}</div>
-    
+          {%if on_development %}
+          <div class="card first">
+            <div class="card-body px-2">
+              <h4 class="card-title"> Transfer Currently Disabled</h4>
+              <form class="forms-sample" action="" method="post">
+                <div class="form-group">
+                 <h3> Transfer would be back soon............ </h3>
+                </div>
+  
+  
+              </form>
+            </div>
+          </div>
+          {%else%}
           <div class="col-md-6">
             <div class="card first">
               <div class="card-body px-2">
@@ -34,6 +47,7 @@
                       <option value="LTC">Litecoin </option>
                       <option value="XRP">XRP </option>
                       <option value="ETH">Etherum </option>
+                      {% comment %} <option value="USDT">USDT [TRC20] </option> {% endcomment %}
                     </select>
                   </div>
     
@@ -49,11 +63,11 @@
                   <div class="row">
                     <div class="mb-3 col">
                       <label for="value" class="form-label">VALUE</label>
-                      <input type="number" name="" id="value" class="form-control" oninput="getUsdtValue()" min="1">
+                      <input type="number" name="amount" id="value" class="form-control" oninput="getUsdtValue()" min="1">
                     </div>
                     <div class="mb-3 col">
                       <label for="usdtvalue" class="form-label">USDT VALUE</label>
-                      <input type="number" name="" id="usdtvalue" class="form-control" min="1" readonly>
+                      <input type="number" step="any" name="amount" id="usdtvalue" class="form-control" min="1" readonly>
                       
                     </div>
                   </div>
@@ -72,8 +86,8 @@
                 <h4 class="card-title">Make Transfer</h4>
                 <form class="forms-sample" action="" method="post">
                   <div class="form-group">
-                    <label class="form-control-label">Enter The Wallet Address <span class="text-danger">*</span></label>
-                    <input type="text" name="" id="wallet_address" class="form-control" value="" onchange="thirdChange()"
+                    <label class="form-control-label">Enter The Receivers's Username <span class="text-danger">*</span></label>
+                    <input type="text" name="username" id="wallet_address" class="form-control" value="" onchange="thirdChange()"
                       required>
                   </div>
     
@@ -82,11 +96,11 @@
     
                     <form action="/user/transfer" method="POST">
                       {% csrf_token %}
-                      <input type="text" name="wallet_address" id="wallet_address_main"
+                      <input type="text" name="username" id="wallet_address_main"
                         style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
-                      <input type="number" name="amount" id="amount_main"
+                      <input type="number" step="any" name="amount" id="amount_main"
                         style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
-                      <input type="number" name="usdt_amount" id="usdt_amount_main"
+                      <input type="number" step="any" name="usdt_amount" id="usdt_amount_main"
                         style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;" step="any">
                       <input type="text" name="wallet_type" id="wallet_type_main"
                         style="height: 0px;width:0px;overflow:hidden;background-color:transparent;opacity:0;">
@@ -98,8 +112,8 @@
               </div>
             </div>
           </div>
-    
-          <div class="col-md-6">
+          {%endif%}
+          {% comment %} <div class="col-md-6">
             <div class="card">
               <div class="card-body px-0">
                 <h4 class="card-title text-center">Recent Transfer</h4>
@@ -114,7 +128,7 @@
                       {% endif %}
     
     
-                      <p class="card-text">{{ transfer.amount }} was sent to {{ transfer.wallet_address }} on {{ transfer.time }}</p>
+                      <p class="card-text">{{ transfer.amount }} was sent to {{ transfer.email_address }} on {{ transfer.time }}</p>
     
                     </div>
                   </div>
@@ -124,7 +138,7 @@
                   <p class="text-center">You have not made any transfer</p>
                   {% endfor %}
                   <div class="text-center">
-                    <a class="btn btn-success mt-3 px-3" href="/transaction?category=transfer">Show all
+                    <a class="btn btn-success mt-3 px-3" href="/user/transaction?category=transfer">Show all
                       withdrawals</a>
                   </div>
     
@@ -132,7 +146,7 @@
                 </table>
               </div>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
       </div>
     

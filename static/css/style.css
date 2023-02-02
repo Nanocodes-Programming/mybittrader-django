@@ -9677,6 +9677,10 @@ Sidebar Modal CSS
   top: 0;
   position: absolute!important;
 }
+.cert__container{
+text-align: center;
+margin-top: 6rem;
+}
 @media(max-width:550px){
  .muted__vid{
   /* position: static!important; */

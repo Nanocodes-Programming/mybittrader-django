@@ -14,6 +14,6 @@ urlpatterns = [
     path('transfer',views.user_transfer, name='user_transfer'),
     path('referral',views.user_referral, name='user_referral'),
     path('withdraw',views.user_withdraw, name='user_withdraw'),
-   
+    path('kyc',views.user_kyc, name='kyc'),
     
 ]

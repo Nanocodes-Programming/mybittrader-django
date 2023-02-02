@@ -228,7 +228,7 @@
                   </li>
                 </ul>
                 <a href="{%url 'about' %}" class="default-btn">More About Us</a>
-                <a href="./static/img/cert.png" class="default-btn">View certificate</a>
+                {% comment %} <a href="./static/img/cert.png" class="default-btn">View certificate</a> {% endcomment %}
               </div>
             </div>
           </div>
@@ -245,7 +245,7 @@
     <p>Moreover, there is currently no established market practice, technical standard, or data to determine whether investment decisions in the type of financial instruments offered on {{site.name}} can result in adverse impact on sustainability factors. Nevertheless,{{site.name}} considers its existing Environmental, Social, and Governance (ESG) integration policy to be appropriate and adequate in respect to the services and investment products offered.{{site.name}} aims to implement environmental, social, and employee matters, respect for human rights, anti‐corruption and anti‐bribery matters within its remuneration policy practices and other internal company documents.{{site.name}} remuneration policy is in line with the Conflicts of Interest policy that addresses how {{site.name}} prevents the risk of an individual’s motivation impacting investment advice.</p>
 </section>
     <!-- Start Pricing Area -->
-    <section class="pricing-area bg-f9f9f9 pt-100 pb-70">
+    {% comment %} <section class="pricing-area bg-f9f9f9 pt-100 pb-70">
       <div class="container">
         <div class="section-title">
           <span class="sub-title"></span>
@@ -287,10 +287,10 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> {% endcomment %}
 
     <!-- Start Pricing Area -->
-    <section class="pricing-area bg-f9f9f9 pt-100 pb-70">
+    {% comment %} <section class="pricing-area bg-f9f9f9 pt-100 pb-70">
       <div class="container">
         <div class="section-title">
           <span class="sub-title"></span>
@@ -336,7 +336,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> {% endcomment %}
 
     <!-- Start Services Area -->
     <section class="services-area bg-f9f9f9 pt-100 pb-70">
@@ -378,7 +378,7 @@
               </div>
               <h3><a href="#">Financial Advisory</a></h3>
               <p>
-                Included with our Asset management service, we also actas the
+                Included with our Asset management service, we also act as the
                 financial advisory board of a business, individual, and family;
                 helping them make crucial and wise fianancial decisions.<br />
                 Our expertise in financial management has made us standout in
@@ -2193,10 +2193,15 @@
             />
             <button type="submit" class="default-btn">Subscribe Now</button>
             <div id="validator-newsletter" class="form-result"></div>
+            
           </form>
+          <div class="cert__container" style="text-align: center, margin-top: 10rem;">
+            <a href="./static/img/cert.png" class="default-btn">View certificate</a>
+          </div>
         </div>
+        
       </div>
-
+      
       <div class="shape9">
         <img src="{% static 'img/shape/shape9.png' %}" alt="image" />
       </div>
