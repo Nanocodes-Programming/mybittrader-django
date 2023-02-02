@@ -22,7 +22,7 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #env('DEBUG')
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -81,18 +81,18 @@ WSGI_APPLICATION = 'pluxchains.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'testdb',
+#    }
+#}
+
+DATABASE_URL = env('DATABASE_URL')
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'testdb',
-    }
+     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
-
-# DATABASE_URL = env('DATABASE_URL')
-
-# DATABASES = {
-#     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
-# }
 
 
 # Password validation
