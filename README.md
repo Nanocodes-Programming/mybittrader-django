@@ -1,1 +1,2 @@
 "# bittrader-safe" 
+# mybittrader-django
