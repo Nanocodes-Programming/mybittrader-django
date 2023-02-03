@@ -168,15 +168,19 @@ def user_profile(request):
 
 @login_required(login_url='/accounts/login')
 def user_kyc(request):
-    profile = Profile.objects.get(user=request.user)
+    
     # instance = Kyc.objects.get(user=request.user)
     # verified = instance.verified
+    profile = None
+    user= request.user
     try:
         instance = Kyc.objects.get(user=request.user)
+        profile = Profile.objects.get(user=request.user)
         verified = instance.verified
     except Kyc.DoesNotExist:
         instance = None
         verified = False
+        profile = None
     if request.method == 'POST':
         user = request.user
         country = request.POST['country']
